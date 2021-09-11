@@ -20,3 +20,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware('auth')->group(function(){
+    Route::get('/create','TablesController@showTableCreationForm')->name('table.create');
+    Route::post('/create','TablesController@createTable')->name('table.create');
+});

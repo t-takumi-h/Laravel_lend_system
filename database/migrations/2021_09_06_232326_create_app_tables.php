@@ -22,7 +22,7 @@ class CreateAppTables extends Migration
 
         Schema::create('tables', function (Blueprint $table){
             $table->id();
-
+            $table->string('title');
             $table->unsignedBigInteger('author_id');
             $table->timestamps();
 
