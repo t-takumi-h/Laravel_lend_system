@@ -9,6 +9,13 @@ use App\Http\Requests\Tables\CreateRequest;
 
 class TablesController extends Controller
 {
+    public function showTables()
+    {
+        $tables = Table::all();
+
+        return view('tables.tables')->with('tables', $tables);
+    }
+
     public function showTableCreationForm()
     {
         return view('tables.table_creation_form')->with('user', Auth::user());
@@ -23,7 +30,7 @@ class TablesController extends Controller
         $table->author_id = $user->id;
         $table->save();
 
-        return redirect()->back();
+        return redirect()->route('top');
     }
 
 }

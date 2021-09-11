@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
 <div>管理テーブルを作成する</div>
 <form method="POST" action="{{ route('table.create') }}">
   @csrf
@@ -9,3 +12,4 @@
     <button type="submit">作成</button>
   </dib>
 </form>
+@endsection
