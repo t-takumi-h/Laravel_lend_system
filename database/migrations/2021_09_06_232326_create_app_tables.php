@@ -15,11 +15,6 @@ class CreateAppTables extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-
         Schema::create('tables', function (Blueprint $table){
             $table->id();
             $table->string('title');
@@ -29,10 +24,22 @@ class CreateAppTables extends Migration
             $table->foreign('author_id')->references('id')->on('users');
         });
 
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->unsignedBigInteger('table_id');
+            $table->timestamps();
+
+            $table->foreign('table_id')->references('id')->on('tables');
+        });
+
         Schema::create('items', function (Blueprint $table){
             $table->id();
+            $table->string('name');
+            $table->string('part_num');
+            $table->string('vendor');
             $table->unsignedBigInteger('table_id');
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->timestamps();
 
             $table->foreign('table_id')->references('id')->on('tables');
@@ -59,7 +66,7 @@ class CreateAppTables extends Migration
     {
         Schema::dropIfExists('lend_logs');
         Schema::dropIfExists('items');
-        Schema::dropIfExists('tables');
         Schema::dropIfExists('categories');
+        Schema::dropIfExists('tables');
     }
 }

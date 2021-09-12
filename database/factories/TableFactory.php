@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Table::class, function (Faker $faker) {
     return [
-        'title' => $faker->word,
+        'title' => $faker->word . "テーブル",
         'author_id' => 1,
     ];
 });

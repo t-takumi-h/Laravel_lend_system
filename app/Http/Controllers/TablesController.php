@@ -18,7 +18,7 @@ class TablesController extends Controller
 
     public function showTableCreationForm()
     {
-        return view('tables.table_creation_form')->with('user', Auth::user());
+        return view('tables.table_creation_form');
     }
 
     public function createTable(CreateRequest $request)
