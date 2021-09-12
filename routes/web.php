@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/','TablesController@showTables')->name('top');
+Route::get('/tables/{table}','ItemsController@showItems')->name('item.list');
 
 Auth::routes();
 

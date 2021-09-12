@@ -11,6 +11,15 @@ use App\Http\Requests\Items\CreateRequest;
 
 class ItemsController extends Controller
 {
+    public function showItems(Table $table)
+    {
+        $items = Item::where('table_id', $table->id)
+            ->with('category') //Eager Loadingでクエリ回数を減らす
+            ->get();
+
+        return view('items.items')->with('items', $items)->with('table', $table);
+    }
+
     public function showItemCreationForm(Table $table)
     {
         $categories = Category::where('table_id',$table->id)->get();

@@ -5,7 +5,7 @@
 <div>
   @foreach ($tables as $table)
     <div>
-      <a href="#">{{ $table->title }}</a>
+      <a href="{{route('item.list', [$table->id])}}">{{ $table->title }}</a>
     </div>
   @endforeach
 </div>
