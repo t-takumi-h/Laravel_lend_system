@@ -22,6 +22,11 @@ class ItemsController extends Controller
 
     public function showItemCreationForm(Table $table)
     {
+        $user = Auth::user();
+        if ($user->id !== $table->author_id)
+        { 
+            abort(403);
+        }
         $categories = Category::where('table_id',$table->id)->get();
         return view('items.item_creation_form')->with('table', $table)->with('categories', $categories);
     }

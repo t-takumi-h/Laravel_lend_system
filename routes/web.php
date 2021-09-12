@@ -23,6 +23,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware('auth')->group(function(){
     Route::get('/create', 'TablesController@showTableCreationForm')->name('table.create');
     Route::post('/create', 'TablesController@createTable')->name('table.create');
+});
+
+Route::middleware(['auth', 'can:itemCreate,table'])->group(function(){
     Route::get('/tables/{table}/create', 'ItemsController@showItemCreationForm')->name('item.create');
     Route::post('/tables/{table}/create', 'ItemsController@createItem')->name('item.create');
 });
