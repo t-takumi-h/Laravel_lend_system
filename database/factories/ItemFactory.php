@@ -12,5 +12,7 @@ $factory->define(Item::class, function (Faker $faker) {
         'vendor' => $faker->word . "社",
         'category_id' => "",
         'table_id' => 1,
+        'state' => Item::STATE_AVAILABLE,
+        //'state' => $faker->randomElement($array = [Item::STATE_AVAILABLE, Item::STATE_UNAVAILABLE]),
     ];
 });

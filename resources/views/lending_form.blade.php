@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div>管理テーブルを作成する</div>
+<div>{{ $item->name }}の貸出申請</div>
 <form method="POST" action="{{ route('table.create') }}">
   @csrf
   <div>
@@ -12,5 +12,4 @@
     <button type="submit">作成</button>
   </dib>
 </form>
-<a href="{{ route('top') }}">管理テーブル一覧に戻る</a>
 @endsection

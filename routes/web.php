@@ -13,19 +13,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/','TablesController@showTables')->name('top');
-Route::get('/tables/{table}','ItemsController@showItems')->name('item.list');
+Route::get('/', 'TablesController@showTables')->name('top');
+Route::get('/tables/{table}', 'ItemsController@showItems')->name('item.list');
+Route::get('/tables/{table}/items/{item}/', 'ItemsController@showItemDetail')->name('item.detail');
+Route::get('/tables/{table}/lent', 'LendItemController@showLendingItems')->name('item.lend-list');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
 
-Route::middleware('auth')->group(function(){
+Route::middleware('auth')->group(function () {
     Route::get('/create', 'TablesController@showTableCreationForm')->name('table.create');
     Route::post('/create', 'TablesController@createTable')->name('table.create');
+    Route::post('/tables/{table}/items/{item}/', 'ItemsController@lendItem')->name('item.detail');
 });
 
-Route::middleware(['auth', 'can:itemCreate,table'])->group(function(){
+Route::middleware(['auth', 'can:itemCreate,table'])->group(function () {
     Route::get('/tables/{table}/create', 'ItemsController@showItemCreationForm')->name('item.create');
     Route::post('/tables/{table}/create', 'ItemsController@createItem')->name('item.create');
 });

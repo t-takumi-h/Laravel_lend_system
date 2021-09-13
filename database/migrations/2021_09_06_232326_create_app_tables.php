@@ -40,6 +40,7 @@ class CreateAppTables extends Migration
             $table->string('vendor');
             $table->unsignedBigInteger('table_id');
             $table->unsignedBigInteger('category_id')->nullable();
+            $table->string('state');
             $table->timestamps();
 
             $table->foreign('table_id')->references('id')->on('tables');
@@ -50,6 +51,10 @@ class CreateAppTables extends Migration
             $table->id();
             $table->unsignedBigInteger('item_id');
             $table->unsignedBigInteger('borrower_id');
+            $table->timestamp('borrow_at');
+            $table->date('return_expect');
+            $table->timestamp('return_at')->nullable();
+            $table->boolean('was_returned');
             $table->timestamps();
 
             $table->foreign('item_id')->references('id')->on('items');

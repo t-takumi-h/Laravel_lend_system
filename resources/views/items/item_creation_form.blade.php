@@ -23,14 +23,15 @@
         カテゴリー選択なし
       </option>
       @foreach ($categories as $category)
-        <option value="{{ $category->id }}" {{ old('category') === $category->id ? 'select' : ''}}>
-          {{ $category->name }}
-        </option>
+      <option value="{{ $category->id }}" {{ old('category') === $category->id ? 'select' : ''}}>
+        {{ $category->name }}
+      </option>
       @endforeach
     </select>
   </div>
-  <dib>
+  <div>
     <button type="submit">追加</button>
-  </dib>
+  </div>
 </form>
+<a href="{{route('item.list', [$table->id])}}">備品一覧に戻る</a>
 @endsection
