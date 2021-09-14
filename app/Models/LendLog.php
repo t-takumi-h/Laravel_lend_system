@@ -10,4 +10,9 @@ class LendLog extends Model
     {
         return $this->belongsTo(User::class, 'borrower_id');
     }
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class, 'item_id');
+    }
 }
