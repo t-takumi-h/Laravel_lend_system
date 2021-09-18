@@ -13,10 +13,10 @@ class LendItemController extends Controller
     public function showLendingItems(Table $table)
     {
         $lend_logs = Lendlog::where('was_returned', 0)
+            ->join('items', 'lend_logs.item_id', 'items.id')
+            ->where('table_id', $table->id)
             ->with('borrower')
-            ->with(['item' => function ($query) use ($table) {
-                $query->where('table_id', $table->id);
-            }])
+            ->with('item')
             ->get();
         
         return view('items.lending_items')->with([

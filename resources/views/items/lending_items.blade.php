@@ -5,7 +5,7 @@
   <div class="card">
     <div class="card-header">
       <div class="d-flex align-items-center font-weight-bold">
-        "{{ $table->title }}"の備品一覧
+        "{{ $table->title }}"の貸出一覧
       </div>
     </div>
     <table class="table">
@@ -29,4 +29,4 @@
     </div>
   </div>
 </div>
-  @endsection
+@endsection

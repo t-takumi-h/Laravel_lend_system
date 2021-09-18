@@ -15,5 +15,9 @@ class Item extends Model
         return $this->belongsTo(Category::class, 'category_id');
     }
 
+    public function table(){
+        return $this->belongsTo(Table::class, 'table_id');
+    }
+
 
 }

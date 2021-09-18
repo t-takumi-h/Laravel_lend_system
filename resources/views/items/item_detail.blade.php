@@ -25,6 +25,16 @@
         <td>ステータス:</td>
         <td>{{ $item->state }}</td>
       </tr>
+      @if ($item->state === App\Models\Item::STATE_UNAVAILABLE)
+      <tr>
+        <td>貸与ユーザー:</td>
+        <td>{{ $lend_logs->first()->borrower->name }}</td>
+      </tr>
+      <tr>
+        <td>返却予定日:</td>
+        <td>{{ $lend_logs->first()->return_expect }}</td>
+      </tr>
+      @endif
     </table>
     <div class="card-footer">
       <a href="{{ route('item.list', [$table->id]) }}">備品一覧に戻る</a>
@@ -58,7 +68,7 @@
   </div>
   <br>
   <div class="card">
-    <div class="card-header font-weight-bold">"{{ $item->name }}"の貸出履歴</div>
+    <div class="card-header font-weight-bold">貸出履歴</div>
     <table class="table">
       <tr>
         <th>貸出日</th>
