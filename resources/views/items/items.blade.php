@@ -44,7 +44,12 @@
       @endforeach
     </table>
     <div class="card-footer">
-      <a href="{{ route('top') }}">管理テーブル一覧に戻る</a>
+      <div class="row">
+        <a href="{{ route('top') }}" class="col-sm-6 d-flex align-items-center">管理テーブル一覧に戻る</a>
+        <div class="col-sm-6 d-flex align-items-center justify-content-end">
+          {{ $items->withQueryString()->links() }}
+        </div>
+      </div>
     </div>
   </div>
 </div>

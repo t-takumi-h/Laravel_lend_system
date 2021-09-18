@@ -17,7 +17,8 @@ class ItemsController extends Controller
     {
         $items = Item::where('table_id', $table->id)
             ->with('category') //Eager Loadingでクエリ回数を減らす
-            ->get();
+            //->get();
+            ->paginate(5);
 
         return view('items.items')->with([
             'items' => $items,
@@ -31,7 +32,7 @@ class ItemsController extends Controller
             ->orderBy('id','desc')
             ->with('borrower')
             ->get();
-            
+
         return view('items.item_detail')->with([
             'table' => $table,
             'item' => $item,
