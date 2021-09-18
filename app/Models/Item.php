@@ -19,5 +19,9 @@ class Item extends Model
         return $this->belongsTo(Table::class, 'table_id');
     }
 
+    public function lend_logs(){
+        return $this->hasMany(LendLog::class, 'item_id');
+    }
+
 
 }

@@ -27,7 +27,11 @@ class ItemsController extends Controller
 
     public function showItemDetail(Table $table, Item $item)
     {
-        $lend_logs = LendLog::where('item_id', $item->id)->latest()->get();
+        $lend_logs = LendLog::where('item_id', $item->id)
+            ->orderBy('id','desc')
+            ->with('borrower')
+            ->get();
+            
         return view('items.item_detail')->with([
             'table' => $table,
             'item' => $item,
