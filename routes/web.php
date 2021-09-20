@@ -33,4 +33,6 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'can:itemCreate,table'])->group(function () {
     Route::get('/tables/{table}/create', 'ItemsController@showItemCreationForm')->name('item.create');
     Route::post('/tables/{table}/create', 'ItemsController@createItem')->name('item.create');
+    Route::get('/tables/{table}/items/{item}/edit', 'ItemsController@showItemEditingForm')->name('item.edit');
+    Route::post('/tables/{table}/items/{item}/edit', 'ItemsController@editItem')->name('item.edit');
 });

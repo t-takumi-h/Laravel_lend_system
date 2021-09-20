@@ -17,12 +17,11 @@ class ItemsController extends Controller
     {
         $items = Item::where('table_id', $table->id)
             ->with('category') //Eager Loadingでクエリ回数を減らす
-            //->get();
             ->paginate(5);
 
         return view('items.items')->with([
             'items' => $items,
-            'table'=> $table,
+            'table' => $table,
         ]);
     }
 
@@ -34,8 +33,8 @@ class ItemsController extends Controller
             ->get();
 
         return view('items.item_detail')->with([
-            'table' => $table,
-            'item' => $item,
+            'table'     => $table,
+            'item'      => $item,
             'lend_logs' => $lend_logs,
         ]);
     }
@@ -49,20 +48,46 @@ class ItemsController extends Controller
         }
         $categories = Category::where('table_id',$table->id)->get();
         return view('items.item_creation_form')->with([
-            'table' => $table,
-            'categories' => $categories,
+            'table'         => $table,
+            'categories'    => $categories,
+        ]);
+    }
+
+    public function showItemEditingForm(Table $table, Item $item)
+    {
+        $user = Auth::user();
+        if ($user->id !== $table->author_id)
+        { 
+            abort(403);
+        }
+        $categories = Category::where('table_id',$table->id)->get();
+        return view('items.item_editing_form')->with([
+            'table'         => $table,
+            'item'          => $item,
+            'categories'    => $categories,
         ]);
     }
 
     public function createItem(CreateRequest $request, Table $table)
     {
-        $item = new Item();
-        $item->name = $request->name;
-        $item->part_num = $request->part_num;
-        $item->vendor = $request->vendor;
-        $item->table_id = $table->id;
-        $item->category_id = $request->category;
-        $item->state = Item::STATE_AVAILABLE;
+        $item               = new Item();
+        $item->name         = $request->name;
+        $item->part_num     = $request->part_num;
+        $item->vendor       = $request->vendor;
+        $item->table_id     = $table->id;
+        $item->category_id  = $request->category;
+        $item->state        = Item::STATE_AVAILABLE;
+        $item->save();
+
+        return redirect()->back();
+    }
+
+    public function editItem(CreateRequest $request, Table $table, Item $item)
+    {
+        $item->name         = $request->name;
+        $item->part_num     = $request->part_num;
+        $item->vendor       = $request->vendor;
+        $item->category_id  = $request->category;
         $item->save();
 
         return redirect()->back();
@@ -70,19 +95,19 @@ class ItemsController extends Controller
 
     public function lendItem(LendLogRequest $request, Table $table, Item $item)
     {
-        $user = Auth::user();
-        $lend_log = new LendLog();
-        $lend_log->item_id = $item->id;
-        //$lend_log->item_id = 1;
-        $lend_log->borrower_id = $user->id;
-        $lend_log->borrow_at = now();
-        $lend_log->return_expect = $request->return_expect;
-        $lend_log->was_returned = false;
+        $user                       = Auth::user();
+        $lend_log                   = new LendLog();
+        $lend_log->item_id          = $item->id;
+        $lend_log->borrower_id      = $user->id;
+        $lend_log->borrow_at        = now();
+        $lend_log->return_expect    = $request->return_expect;
+        $lend_log->was_returned     = false;
         $lend_log->save();
         
-        $item->state = Item::STATE_UNAVAILABLE;
+        $item->state                = Item::STATE_UNAVAILABLE;
         $item->save();
 
         return redirect()->back();
     }
+    
 }

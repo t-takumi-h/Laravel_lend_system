@@ -3,7 +3,21 @@
 @section('content')
 <div class="container">
   <div class="card">
-    <div class="card-header font-weight-bold">"{{ $item->name }}"の詳細</div>
+    <div class="card-header">
+      <div class="row">
+        <div class="col-sm-6 d-flex align-items-center font-weight-bold">
+          {{ $item->name }}"の詳細
+        </div>
+        <div class="col-sm-6 d-flex align-items-center justify-content-end">
+          @auth
+          @if (Auth::user()->id === $table->author_id)
+
+          <a href="{{ route('item.edit', [$table->id, $item->id]) }}" class="btn btn-primary mr-3">編集</a>
+          @endif
+          @endauth
+        </div>
+      </div>
+    </div>
     <table class="table">
       <tr>
         <td>品名:</td>
