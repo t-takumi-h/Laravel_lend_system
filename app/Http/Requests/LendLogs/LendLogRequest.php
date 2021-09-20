@@ -27,4 +27,11 @@ class LendLogRequest extends FormRequest
             'return_expect' => ['required', 'date', 'after_or_equal:today'],
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'return_expect' => '返却予定日',
+        ];
+    }
 }

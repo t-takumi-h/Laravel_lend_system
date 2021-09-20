@@ -9,17 +9,32 @@
         @csrf
         <div class="form-group mr-3">
           <label for="name">備品名</label>
-          <input type="text" class="form-control" ame="name" id="name" value="{{ old('name')}}" />
+          <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ old('name')}}" />
+          @error('name')
+          <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+          </span>
+          @enderror
         </div>
 
         <div class="form-group mr-3">
           <label for="part_num">型名</label>
-          <input type="text" class="form-control" name="part_num" id="part_num" value="{{ old('part_num')}}" />
+          <input type="text" class="form-control @error('part_num') is-invalid @enderror" name="part_num" id="part_num" value="{{ old('part_num')}}" />
+          @error('part_num')
+          <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+          </span>
+          @enderror
         </div>
 
         <div class="form-group mr-3">
           <label for="vendor">メーカー名</label>
-          <input type="text" class="form-control" name="vendor" id="vendor" value="{{ old('vendor')}}" />
+          <input type="text" class="form-control @error('vendor') is-invalid @enderror" name="vendor" id="vendor" value="{{ old('vendor')}}" />
+          @error('vendor')
+          <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+          </span>
+          @enderror
         </div>
 
         <div class="form-group mr-3">
@@ -34,6 +49,11 @@
             </option>
             @endforeach
           </select>
+          @error('category')
+          <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+          </span>
+          @enderror
         </div>
         <button type="submit" class="btn btn-primary">追加</button>
       </form>

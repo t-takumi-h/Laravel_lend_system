@@ -39,7 +39,12 @@
         @else
         <td>(カテゴリー未設定)</td>
         @endif
-        <td>{{ $item->state }}</td>
+
+        @if ($item->state == App\Models\Item::STATE_AVAILABLE)
+        <td><span class="badge badge-success">{{ $item->state }}</span></td>
+        @else
+        <td><span class="badge badge-danger">{{ $item->state }}</span></td>
+        @endif
       </tr>
       @endforeach
     </table>

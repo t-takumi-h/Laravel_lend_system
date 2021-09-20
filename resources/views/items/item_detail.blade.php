@@ -19,7 +19,11 @@
       </tr>
       <tr>
         <td>カテゴリー:</td>
+        @if (isset($item->category_id))
         <td>{{ $item->category->name }}</td>
+        @else
+        <td>(カテゴリー未設定)</td>
+        @endif
       </tr>
       <tr>
         <td>ステータス:</td>
@@ -51,8 +55,13 @@
         <form class="form-inline" method="POST" action="{{ route('item.detail', [$table->id, $item->id]) }}">
           @csrf
           <div class="form-group mr-3">
-            <label for="name">返却予定日</label>
-            <input type="date" class="form-control" name="return_expect" id="return_expect" min="{{ date('Y-m-d') }}" value="{{ old('return_expect')}}" required />
+            <label for="return_expect">返却予定日</label>
+            <input type="date" class="form-control @error('return_expect') is-invalid @enderror" name="return_expect" id="return_expect" min="{{ date('Y-m-d') }}" value="{{ old('return_expect')}}" required />
+            @error('return_expect')
+            <span class="invalid-feedback" role="alert">
+              <strong>{{ $message }}</strong>
+            </span>
+            @enderror
           </div>
           <button type="submit" class="btn btn-primary">申請</button>
         </form>
@@ -83,7 +92,11 @@
         <td>{{ $lend_log->borrower->name }}</td>
         <td>{{ $lend_log->return_expect }}</td>
         <td>{{ $lend_log->return_at }}</td>
-        <td>{{ $lend_log->was_returned }}</td>
+        @if ($lend_log->was_returned == 1)
+        <td class="text-success">済</td>
+        @else
+        <td class="text-danger">未</td>
+        @endif
       </tr>
       @endforeach
     </table>

@@ -27,4 +27,11 @@ class CreateRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'title' => '管理テーブル名',
+        ];
+    }
 }

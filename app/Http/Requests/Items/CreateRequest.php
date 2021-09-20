@@ -30,4 +30,14 @@ class CreateRequest extends FormRequest
             'category' => ['nullable', 'integer'],
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'name'      => '備品名',
+            'part_num'  => '型名',
+            'vendor'    => 'メーカー名',
+            'category'  => 'カテゴリ',
+        ];
+    }
 }

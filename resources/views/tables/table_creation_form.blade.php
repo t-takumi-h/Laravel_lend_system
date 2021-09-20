@@ -9,7 +9,12 @@
         @csrf
         <div class="form-group mr-3">
           <label for="title">管理テーブル名</label>
-          <input type="text" class="form-control" name="title" id="title" value="{{ old('title')}}" />
+          <input type="text" class="form-control @error('title') is-invalid @enderror" name="title" id="title" value="{{ old('title')}}" />
+          @error('title')
+          <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+          </span>
+          @enderror
         </div>
         <dib>
           <button type="submit" class="btn btn-primary">作成</button>

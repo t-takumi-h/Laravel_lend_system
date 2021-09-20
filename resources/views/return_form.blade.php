@@ -4,14 +4,14 @@
 <div class="container">
   <div class="card">
     <form class="" method="POST" action="{{ route('return') }}">
-    @csrf
+      @csrf
       <div class="card-header">
         <div class="row">
           <div class="col-sm-6 d-flex align-items-center font-weight-bold">
             {{ Auth::user()->name }}さんの貸出一覧
           </div>
           <div class="col-sm-6 d-flex align-items-center justify-content-end">
-            <button type="submit" class="btn btn-danger">返却する</button>
+            <button type="submit" class="btn btn-danger" id="submit" disabled='disabled'>返却する</button>
           </div>
         </div>
       </div>
@@ -29,7 +29,7 @@
           <td>{{ $lend_log->item->name }}</td>
           <td>{{ $lend_log->borrow_at }}</td>
           <td>{{ $lend_log->return_expect }}</td>
-          <td><input type="checkbox" name="return_log[{{ $lend_log->id }}]" value="1"></td>
+          <td><input type="checkbox" class="chkbox" name="return_log[{{ $lend_log->id }}]" value="1"></td>
         </tr>
         @endforeach
       </table>
@@ -39,4 +39,22 @@
     </form>
   </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+  let checkBoxs = document.getElementsByClassName('chkbox');
+  let submit = document.getElementById('submit');
+  for (let i = 0; i < checkBoxs.length; i++) {
+    checkBoxs[i].addEventListener('change', function() {
+        let ck_count = $(".table :checked").length;
+        if (ck_count == 0) {
+          submit.setAttribute('disabled', 'disabled');
+        } else {
+          submit.removeAttribute('disabled');
+        }
+      }
+    );
+  }
+</script>
 @endsection
