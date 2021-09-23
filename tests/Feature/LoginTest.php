@@ -19,22 +19,30 @@ class LoginTest extends TestCase
     }
 
     /**
+     * ログイン画面表示テスト
+     * 
+     * @return void
+     */
+    public function testLoginView()
+    {
+        $response = $this->get('/login');
+        $response->assertStatus(200);
+    }
+
+    /**
      * ログイン成功テスト
      *
      * @return void
      */
     public function testLoginSuccess()
     {
-        $response = $this->get('/login');
-        $response->assertStatus(200);
-
         $response = $this->post(route('login'), [
             'email' => $this->user->email,
-            'password' => 'testtest',
+            'password' => 'testtest', //正しいパスワード
         ]);
         
         $response->assertStatus(302);
-        $response->assertRedirect('/home');
+        $response->assertRedirect('/');
         $this->assertAuthenticatedAs($this->user);
     }
 
@@ -45,9 +53,6 @@ class LoginTest extends TestCase
      */
     public function testLoginFailure()
     {
-        $response = $this->get('/login');
-        $response->assertStatus(200);
-
         $response = $this->post(route('login'), [
             'email' => $this->user->email,
             'password' => 'testtes', //間違ったパスワード
