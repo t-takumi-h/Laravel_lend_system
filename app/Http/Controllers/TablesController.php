@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Table;
 use App\Http\Requests\Tables\CreateRequest;
+use App\Table\UseCase\CreateTableUseCase;
 
-//Tableに関する制御（CRUD）の正常動作に責任をもつ
+//テーブルに関する制御（CRUD）の正常動作に責任をもつ
 class TablesController extends Controller
 {
     //テーブルの一覧を表示する
@@ -25,14 +26,9 @@ class TablesController extends Controller
     }
 
     //テーブルを新規作成する
-    public function createTable(CreateRequest $request)
+    public function createTable(CreateRequest $request, CreateTableUseCase $useCase)
     {
-        $user               = Auth::user();
-        $table              = new Table();
-
-        $table->title       = $request->title;
-        $table->author_id   = $user->id;
-        $table->save();
+        $useCase->handle($request->title);
 
         return redirect()->route('top');
     }
