@@ -12,6 +12,8 @@ use App\Http\Requests\Items\CreateRequest;
 use App\Http\Requests\LendLogs\LendLogRequest;
 use App\Item\UseCase\GetCategoryUseCase;
 use App\Item\UseCase\ShowItemsUseCase;
+use App\Item\UseCase\EditItemUseCase;
+use App\Item\UseCase\CreateItemUseCase;
 
 class ItemsController extends Controller
 {
@@ -58,28 +60,15 @@ class ItemsController extends Controller
         ]);
     }
 
-    public function createItem(CreateRequest $request, Table $table)
+    public function createItem(CreateRequest $request, Table $table, CreateItemUseCase $useCase)
     {
-        $item               = new Item();
-        $item->name         = $request->name;
-        $item->part_num     = $request->part_num;
-        $item->vendor       = $request->vendor;
-        $item->table_id     = $table->id;
-        $item->category_id  = $request->category;
-        $item->state        = Item::STATE_AVAILABLE;
-        $item->save();
-
+        $useCase->handle($request, $table);
         return redirect()->back();
     }
 
-    public function editItem(CreateRequest $request, Table $table, Item $item)
+    public function editItem(CreateRequest $request, Table $table, Item $item, EditItemUseCase $useCase)
     {
-        $item->name         = $request->name;
-        $item->part_num     = $request->part_num;
-        $item->vendor       = $request->vendor;
-        $item->category_id  = $request->category;
-        $item->save();
-
+        $useCase->handle($request, $item);
         return redirect()->back();
     }
 
