@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\LendItem\UseCase\GetLendingItemsUseCase;
 use Illuminate\Http\Request;
 use App\Models\Table;
 use App\Models\LendLog;
@@ -10,14 +11,9 @@ use League\CommonMark\Extension\Table\TableExtension;
 
 class LendItemController extends Controller
 {
-    public function showLendingItems(Table $table)
+    public function showLendingItems(Table $table, GetLendingItemsUseCase $useCase)
     {
-        $lend_logs = Lendlog::where('was_returned', 0)
-            ->join('items', 'lend_logs.item_id', 'items.id')
-            ->where('table_id', $table->id)
-            ->with('borrower')
-            ->with('item')
-            ->get();
+        $lend_logs = $useCase->handle($table);
         
         return view('items.lending_items')->with([
             'lend_logs' => $lend_logs,
