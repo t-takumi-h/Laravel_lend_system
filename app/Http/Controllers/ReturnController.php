@@ -7,18 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\LendLog;
 use App\Models\Item;
 use App\Http\Requests\LendLogs\LendLogRequest;
+use App\ReturnItem\UseCase\GetUserLendLogUseCase;
 
 class ReturnController extends Controller
 {
-    public function showReturnForm()
+    public function showReturnForm(GetUserLendLogUseCase $useCase)
     {
-        $user = Auth::user();
-        $lend_logs = LendLog::where('borrower_id', $user->id)
-            ->where('was_returned', 0)
-            ->with(['item' => function ($query) {
-                $query->with('table');
-            }])
-            ->get();
+        $lend_logs = $useCase->handle();
         return view('return_form')->with('lend_logs', $lend_logs);
     }
 
