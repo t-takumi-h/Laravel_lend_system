@@ -10,6 +10,7 @@ use App\Models\LendLog;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Items\CreateRequest;
 use App\Http\Requests\LendLogs\LendLogRequest;
+use App\Item\UseCase\GetCategoryUseCase;
 use App\Item\UseCase\ShowItemsUseCase;
 
 class ItemsController extends Controller
@@ -38,28 +39,18 @@ class ItemsController extends Controller
         ]);
     }
 
-    public function showItemCreationForm(Table $table)
+    public function showItemCreationForm(Table $table, GetCategoryUseCase $useCase)
     {
-        $user = Auth::user();
-        if ($user->id !== $table->author_id)
-        { 
-            abort(403);
-        }
-        $categories = Category::where('table_id',$table->id)->get();
+        $categories = $useCase->handle($table);
         return view('items.item_creation_form')->with([
             'table'         => $table,
             'categories'    => $categories,
         ]);
     }
 
-    public function showItemEditingForm(Table $table, Item $item)
+    public function showItemEditingForm(Table $table, Item $item, GetCategoryUseCase $useCase)
     {
-        $user = Auth::user();
-        if ($user->id !== $table->author_id)
-        { 
-            abort(403);
-        }
-        $categories = Category::where('table_id',$table->id)->get();
+        $categories = $useCase->handle($table);
         return view('items.item_editing_form')->with([
             'table'         => $table,
             'item'          => $item,
