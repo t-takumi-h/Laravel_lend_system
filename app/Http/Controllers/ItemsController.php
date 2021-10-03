@@ -14,6 +14,7 @@ use App\Item\UseCase\GetCategoryUseCase;
 use App\Item\UseCase\ShowItemsUseCase;
 use App\Item\UseCase\EditItemUseCase;
 use App\Item\UseCase\CreateItemUseCase;
+use App\Item\UseCase\GetLendLogUseCase;
 
 class ItemsController extends Controller
 {
@@ -27,12 +28,9 @@ class ItemsController extends Controller
         ]);
     }
 
-    public function showItemDetail(Table $table, Item $item)
+    public function showItemDetail(Table $table, Item $item, GetLendLogUseCase $useCase)
     {
-        $lend_logs = LendLog::where('item_id', $item->id)
-            ->orderBy('id','desc')
-            ->with('borrower')
-            ->get();
+        $lend_logs = $useCase->handle($item);
 
         return view('items.item_detail')->with([
             'table'     => $table,
