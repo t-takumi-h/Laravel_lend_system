@@ -10,14 +10,13 @@ use App\Models\LendLog;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Items\CreateRequest;
 use App\Http\Requests\LendLogs\LendLogRequest;
+use App\Item\UseCase\ShowItemsUseCase;
 
 class ItemsController extends Controller
 {
-    public function showItems(Table $table)
+    public function showItems(Table $table, ShowItemsUseCase $useCase)
     {
-        $items = Item::where('table_id', $table->id)
-            ->with('category') //Eager Loadingでクエリ回数を減らす
-            ->paginate(5);
+        $items = $useCase->handle($table);
 
         return view('items.items')->with([
             'items' => $items,
