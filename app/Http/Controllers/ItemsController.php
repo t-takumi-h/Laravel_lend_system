@@ -15,6 +15,7 @@ use App\Item\UseCase\ShowItemsUseCase;
 use App\Item\UseCase\EditItemUseCase;
 use App\Item\UseCase\CreateItemUseCase;
 use App\Item\UseCase\GetLendLogUseCase;
+use App\Item\UseCase\LendItemUseCase;
 
 class ItemsController extends Controller
 {
@@ -70,20 +71,9 @@ class ItemsController extends Controller
         return redirect()->back();
     }
 
-    public function lendItem(LendLogRequest $request, Table $table, Item $item)
+    public function lendItem(LendLogRequest $request, Table $table, Item $item, LendItemUseCase $useCase)
     {
-        $user                       = Auth::user();
-        $lend_log                   = new LendLog();
-        $lend_log->item_id          = $item->id;
-        $lend_log->borrower_id      = $user->id;
-        $lend_log->borrow_at        = now();
-        $lend_log->return_expect    = $request->return_expect;
-        $lend_log->was_returned     = false;
-        $lend_log->save();
-        
-        $item->state                = Item::STATE_UNAVAILABLE;
-        $item->save();
-
+        $useCase->handle($request, $item);
         return redirect()->back();
     }
     
