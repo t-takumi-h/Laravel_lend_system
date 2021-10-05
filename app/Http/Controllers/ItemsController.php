@@ -59,6 +59,15 @@ class ItemsController extends Controller
         ]);
     }
 
+    public function showItemQrcode(Table $table, ShowItemsUseCase $useCase){
+        $items = $useCase->handle($table);
+
+        return view('items.item_qrcodes')->with([
+            'items' => $items,
+            'table' => $table,
+        ]);
+    }
+
     public function createItem(CreateRequest $request, Table $table, CreateItemUseCase $useCase)
     {
         $useCase->handle($request, $table);

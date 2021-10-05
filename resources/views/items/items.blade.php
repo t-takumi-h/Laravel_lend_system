@@ -15,7 +15,8 @@
           <a href="{{ route('item.create', [$table->id]) }}" class="btn btn-primary mr-3">新規作成</a>
           @endif
           @endauth
-          <a href="{{ route('item.lend-list', [$table->id]) }}" class="btn btn-primary">貸出一覧</a>
+          <a href="{{ route('item.lend-list', [$table->id]) }}" class="btn btn-primary mr-3">貸出一覧</a>
+          <a href="{{ route('item.qrcode', [$table->id]) }}" class="btn btn-primary">QRコード一覧</a>
         </div>
       </div>
     </div>
