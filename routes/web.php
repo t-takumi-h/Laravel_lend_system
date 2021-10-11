@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'TablesController@showTables')->name('top');
 Route::get('/tables/{table}', 'ItemsController@showItems')->name('item.list');
+Route::post('/tables/{table}', 'ItemsController@searchItems')->name('item.list');
 Route::get('/tables/{table}/items/{item}/', 'ItemsController@showItemDetail')->name('item.detail');
 Route::get('/tables/{table}/lent', 'LendItemController@showLendingItems')->name('item.lend-list');
 Route::get('/tables/{table}/qrcode', 'ItemsController@showItemQrcode')->name('item.qrcode');
