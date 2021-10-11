@@ -2,6 +2,20 @@
 
 @section('content')
 <div class="container">
+    <form class="form-inline p-2" method="POST" action="{{ route('item.list', [$table->id] ) }}">
+      @csrf
+      <div class="form-group mr-3">
+        <input type="text" class="form-control @error('search') is-invalid @enderror" name="search" id="search" value="{{$search ?? ''}}" />
+        @error('search')
+        <span class="invalid-feedback" role="alert">
+          <strong>{{ $message }}</strong>
+        </span>
+        @enderror
+      </div>
+      <div class="mr-3">
+        <button type="submit" class="btn btn-primary">検索</button>
+      </div>
+    </form>
   <div class="card">
     <div class="card-header">
       <div class="row">

@@ -9,9 +9,11 @@ use App\Models\Category;
 use App\Models\LendLog;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Items\CreateRequest;
+use App\Http\Requests\Items\SearchRequest;
 use App\Http\Requests\LendLogs\LendLogRequest;
 use App\Item\UseCase\GetCategoryUseCase;
 use App\Item\UseCase\ShowItemsUseCase;
+use App\Item\UseCase\SearchItemsUseCase;
 use App\Item\UseCase\EditItemUseCase;
 use App\Item\UseCase\CreateItemUseCase;
 use App\Item\UseCase\GetLendLogUseCase;
@@ -26,6 +28,17 @@ class ItemsController extends Controller
         return view('items.items')->with([
             'items' => $items,
             'table' => $table,
+        ]);
+    }
+
+    public function searchItems(SearchRequest $request, Table $table, SearchItemsUseCase $useCase)
+    {
+        $items = $useCase->handle($request,$table);
+
+        return view('items.items')->with([
+            'items' => $items,
+            'table' => $table,
+            'search'=> $request->search,
         ]);
     }
 
